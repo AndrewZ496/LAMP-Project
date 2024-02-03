@@ -62,7 +62,7 @@ function doLogin()
 	
 				doHome();
 			}
-		};
+		}
 		xhr.send(jsonPayload);
 	}
 	catch(err)
