@@ -185,29 +185,42 @@ function doAddContact() {
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 
-    try {
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                let jsonObject = JSON.parse(xhr.responseText);
-                if(jsonObject.error == ""){
-                    document.getElementById("error-message").innerHTML = "Contact has been added";
-                    document.getElementById("addFirstName").value = "";
-                    document.getElementById("addLastName").value = "";
-                    document.getElementById("addPhoneNumber").value = "";
-                    document.getElementById("addEmailAddress").value = "";
+	try 
+	{
+        xhr.onreadystatechange = function () 
+		{
+            if (this.readyState == 4) 
+			{
+                if (this.status == 200) 
+				{
+                    let jsonObject = JSON.parse(xhr.responseText);
+                    if (jsonObject.error === "") 
+					{
+                        document.getElementById("error-message").innerHTML = "Contact has been added";
+                        document.getElementById("addFirstName").value = "";
+                        document.getElementById("addLastName").value = "";
+                        document.getElementById("addPhoneNumber").value = "";
+                        document.getElementById("addEmailAddress").value = "";
+                    }
+					else 
+					{
+                        document.getElementById("error-message").innerHTML = jsonObject.error;
+                    }
+                } 
+				else 
+				{
+                    document.getElementById("error-message").innerHTML = "Error adding contact. Please try again.";
+                }
             }
-            else{
-                document.getElementById("error-message").innerHTML = jsonObject.error;
-            }
-        }
         };
 
         xhr.send(jsonPayload);
-    } catch (err) {
-        document.getElementById("error-message").innerHTML = err.message;
+    } 
+	catch (err) 
+	{
+        console.error("Add contact failed: " + err.message);
     }
 }
-
 
 function doUpdateContactInfo() {
 	let updateUserName = document.getElementById("updateUserName").value;
