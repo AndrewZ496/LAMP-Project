@@ -1,7 +1,27 @@
 <?php 
 	error_reporting(E_ALL);
 	$inData = getRequestInfo();
+
+	// Error catching
+	try {
+	    $conn = new mysqli("localhost", "EatSand", "yurt", "COP4331");
 	
+	    if ($conn->connect_error) {
+	        throw new Exception('Failed to connect to the database: ' . $conn->connect_error);
+	    }
+	
+	    // ... (other database-related code)
+	
+	    // Close the database connection when done
+	    $conn->close();
+	} catch (Exception $e) {
+	    // Log the exception details to the error log
+	    error_log('Caught exception: ' . $e->getMessage());
+	
+	    // Return an appropriate error response to the client
+	    returnWithError('An error occurred');
+	}
+
 	$FirstName = $inData["FirstName"];
 	$LastName = $inData["LastName"];
 	$Phone = $inData["Phone"];
